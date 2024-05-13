@@ -6,8 +6,7 @@ class Pokemon(models.Model):
     photo = models.ImageField(null=True, blank=True)
 
     def __str__(self):
-        if self.title:
-            return self.title
+        return self.title
 
 
 class PokemonEntity(models.Model):
@@ -21,4 +20,3 @@ class PokemonEntity(models.Model):
     strength = models.IntegerField()
     defence = models.IntegerField()
     stamina = models.IntegerField()
-

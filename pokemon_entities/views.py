@@ -77,7 +77,8 @@ def show_pokemon(request, pokemon_id):
         add_pokemon(folium_map, pokemon.lat, pokemon.lon, full_url)
     pokemon = {
         "title_ru": requested_pokemon.title,
-        "img_url": requested_pokemon.photo.url
+        "img_url": requested_pokemon.photo.url,
+        "description": requested_pokemon.description
     }
 
     return render(request, 'pokemon.html', context={

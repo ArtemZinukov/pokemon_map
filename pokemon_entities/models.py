@@ -14,7 +14,7 @@ class Pokemon(models.Model):
                                            related_name="next_evolution")
 
     def __str__(self):
-        return str(self.title)
+        return self.title
 
 
 class PokemonEntity(models.Model):

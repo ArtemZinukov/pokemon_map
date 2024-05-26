@@ -69,7 +69,7 @@ def show_pokemon(request, pokemon_id):
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     requested_pokemon = Pokemon.objects.get(pk=pokemon_id)
     requested_pokemon_entity = list(
-        requested_pokemon.entity.filter(
+        requested_pokemon.entities.filter(
             appeared_at__lte=timezone.localtime(utc_time),
             disappeared_at__gte=timezone.localtime(utc_time)
         )
@@ -94,7 +94,7 @@ def show_pokemon(request, pokemon_id):
             "img_url": requested_pokemon.previous_evolution.photo.url
         }
 
-    next_evolution = requested_pokemon.next_evolution.first()
+    next_evolution = requested_pokemon.next_evolutions.first()
     if next_evolution:
         pokemon["next_evolution"] = {
             "title_ru": next_evolution.title,

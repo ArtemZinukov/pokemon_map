@@ -30,13 +30,17 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
     ).add_to(folium_map)
 
 
+def get_photo_url(pokemon):
+    return pokemon.pokemon.photo.url if pokemon.pokemon.photo else DEFAULT_IMAGE_URL
+
+
 def show_all_pokemons(request):
     utc_time = timezone.now()
     pokemons = PokemonEntity.objects.filter(appeared_at__lte=timezone.localtime(utc_time),
                                             disappeared_at__gte=timezone.localtime(utc_time))
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon in pokemons:
-        photo_url = pokemon.pokemon.photo.url if pokemon.pokemon.photo else ""
+        photo_url = get_photo_url(pokemon)
         full_url = request.build_absolute_uri(photo_url)
         add_pokemon(
             folium_map, pokemon.lat,
@@ -47,7 +51,7 @@ def show_all_pokemons(request):
     pokemons_on_page = []
     pokemons = Pokemon.objects.all()
     for pokemon in pokemons:
-        photo_url = pokemon.photo.url if pokemon.photo else ""
+        photo_url = pokemon.photo.url if pokemon.photo else DEFAULT_IMAGE_URL
         pokemons_on_page.append({
             'pokemon_id': pokemon.pk,
             'img_url': photo_url,
@@ -72,7 +76,7 @@ def show_pokemon(request, pokemon_id):
     )
 
     for pokemon in requested_pokemon_entity:
-        photo_url = pokemon.pokemon.photo.url if pokemon.pokemon.photo else ""
+        photo_url = get_photo_url(pokemon)
         full_url = request.build_absolute_uri(photo_url)
         add_pokemon(folium_map, pokemon.lat, pokemon.lon, full_url)
     pokemon = {

@@ -68,12 +68,10 @@ def show_pokemon(request, pokemon_id):
     utc_time = timezone.now()
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     requested_pokemon = Pokemon.objects.get(pk=pokemon_id)
-    requested_pokemon_entity = list(
-        requested_pokemon.entities.filter(
+    requested_pokemon_entity = requested_pokemon.entities.filter(
             appeared_at__lte=timezone.localtime(utc_time),
             disappeared_at__gte=timezone.localtime(utc_time)
         )
-    )
 
     for pokemon in requested_pokemon_entity:
         photo_url = get_photo_url(pokemon)

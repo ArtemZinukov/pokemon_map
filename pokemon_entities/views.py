@@ -37,10 +37,10 @@ def get_photo_url(pokemon):
 def show_all_pokemons(request):
     utc_time = timezone.now()
     query_time = timezone.localtime(utc_time)
-    pokemons = PokemonEntity.objects.filter(appeared_at__lte=query_time,
+    pokemons_entities = PokemonEntity.objects.filter(appeared_at__lte=query_time,
                                             disappeared_at__gte=query_time)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon in pokemons:
+    for pokemon in pokemons_entities:
         photo_url = get_photo_url(pokemon)
         full_url = request.build_absolute_uri(photo_url)
         add_pokemon(
